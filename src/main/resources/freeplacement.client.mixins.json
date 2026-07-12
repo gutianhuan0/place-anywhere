@@ -5,7 +5,8 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "MinecraftClientMixin",
-    "MouseMixin"
+    "MouseMixin",
+    "FreeBlockInteractionMixin"
   ],
   "injectors": {
     "defaultRequire": 1
