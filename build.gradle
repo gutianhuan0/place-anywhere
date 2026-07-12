@@ -25,12 +25,6 @@ base {
     archivesName = project.archives_base_name
 }
 
-// 源码在 src/ 目录，构建在 build/ 目录
-sourceSets {
-    main {
-        java {
-            srcDir '../../../../src/place-anywhere-free-placement/fabric/1.21.1/java'
-        }
         resources {
             srcDir '../../../../src/place-anywhere-free-placement/fabric/1.21.1/resources'
         }
@@ -58,7 +52,7 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
     // 依赖本体 Place Anywhere Core 的构建产物
-    modCompileOnly files("../../../place-anywhere-core/fabric/1.21.1/build/libs/placeanywhere-0.1.0+1.21.1.jar")
+    // modCompileOnly files("../place-anywhere-core/build/libs/placeanywhere-0.1.0+VERSION.jar")  // 先构建 place-anywhere-core 对应版本
 }
 
 processResources {
