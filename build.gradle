@@ -17,9 +17,6 @@ group = project.maven_group
 
 base { archivesName = project.archives_base_name }
 
-sourceSets {
-    main {
-        java { srcDir '../../../../src/place-anywhere-free-placement/fabric/1.19.4/java' }
         resources { srcDir '../../../../src/place-anywhere-free-placement/fabric/1.19.4/resources' }
     }
 }
@@ -39,7 +36,7 @@ dependencies {
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-    modCompileOnly files("../../../place-anywhere-core/fabric/1.19.4/build/libs/placeanywhere-0.1.0+1.19.4.jar")
+    // modCompileOnly files("../place-anywhere-core/build/libs/placeanywhere-0.1.0+VERSION.jar")  // 先构建 place-anywhere-core 对应版本
 }
 
 processResources {
