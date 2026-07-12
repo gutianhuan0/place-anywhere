@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.betterslab.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "BlockItemMixin",
+    "SlabBlockMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

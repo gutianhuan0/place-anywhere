@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "id": "betterslab",
+  "version": "${version}",
+  "name": "Better Slab",
+  "description": "Vertical slabs, selective mining, and enhanced slab placement for Minecraft 1.21.1",
+  "authors": [
+    "BetterSlab Team"
+  ],
+  "contact": {
+    "homepage": "https://example.com",
+    "sources": "https://example.com"
+  },
+  "license": "MIT",
+  "icon": "assets/betterslab/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.betterslab.BetterSlab"
+    ],
+    "client": [
+      "com.betterslab.client.BetterSlabClient"
+    ]
+  },
+  "mixins": [
+    "betterslab.mixins.json",
+    {
+      "config": "betterslab.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric-api": "*",
+    "minecraft": "${minecraft_version}",
+    "java": ">=21",
+    "placeanywhere": "*"
+  }
+}

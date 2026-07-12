@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "half=bottom": { "model": "betterslab:block/empty" },
+        "half=top": { "model": "betterslab:block/empty" },
+        "half=double": { "model": "betterslab:block/empty" }
+    }
+}

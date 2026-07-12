@@ -1,0 +1,32 @@
+# Minecraft 游戏实例
+mc/
+
+# build/ 目录下只保留配置文件（build.gradle, gradle.properties, settings.gradle, gradlew）
+# 排除所有构建产物和缓存
+build/**/build/
+build/**/.gradle/
+build/**/run/
+build/**/.idea/
+
+# 临时文件
+temp_extract/
+temp/
+
+# 编译产物
+*.class
+
+# IDE 文件
+.idea/
+*.iml
+.vscode/
+*.swp
+
+# 操作系统文件
+Thumbs.db
+.DS_Store
+
+# 日志
+*.log
+
+# Gradle wrapper jar（太大）
+gradle/wrapper/gradle-wrapper.jar

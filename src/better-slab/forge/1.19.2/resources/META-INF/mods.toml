@@ -1,0 +1,14 @@
+modLoader="javafml"
+loaderVersion="[43,)"
+license="MIT"
+[[mods]]
+modId="betterslab"
+version="0.1.0"
+displayName="Better Slab"
+description='Better slab placement: vertical slabs, merging, selective mining.'
+[[dependencies.betterslab]]
+    modId="placeanywhere"
+    mandatory=true
+    versionRange="[0.1,)"
+    ordering="AFTER"
+    side="BOTH"

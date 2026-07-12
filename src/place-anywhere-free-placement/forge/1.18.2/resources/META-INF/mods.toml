@@ -1,0 +1,14 @@
+modLoader="javafml"
+loaderVersion="[40,)"
+license="MIT"
+[[mods]]
+modId="freeplacement"
+version="0.1.0"
+displayName="Place Anywhere Free Placement"
+description='Free placement mode with aviation-style rotation controls. Requires Place Anywhere Core.'
+[[dependencies.freeplacement]]
+    modId="placeanywhere"
+    mandatory=true
+    versionRange="[0.1,)"
+    ordering="AFTER"
+    side="BOTH"
