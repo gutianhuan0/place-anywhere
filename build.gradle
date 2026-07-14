@@ -28,7 +28,7 @@ base {
 
 loom {
     mods {
-        "freeplacement" {
+        "placeanywhere" {
             sourceSet sourceSets.main
         }
     }
