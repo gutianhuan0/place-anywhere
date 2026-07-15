@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "placeanywhere",
+  "version": "${version}",
+  "name": "Place Anywhere",
+  "description": "Free placement mode with aviation-style rotation controls. Requires Place Anywhere Core.",
+  "authors": [
+    "gutianhuan"
+  ],
+  "license": "MIT",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "com.placeanywhere.fp.FreePlacementClient"
+    ]
+  },
+  "mixins": [
+    {
+      "config": "placeanywhere.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric-api": "*",
+    "minecraft": "${minecraft_version}",
+    "java": ">=21",
+    "placeanywherecore": "*"
+  }
+}
