@@ -19,7 +19,7 @@ public class MinecraftClientMixin {
     private static final long USE_COOLDOWN_MS = 200L;
     private static long lastUseMs = 0L;
 
-
+    
     @Inject(method = "handleBlockBreaking", at = @At("HEAD"), cancellable = true)
     private void freeplacement$onHandleBlockBreaking(boolean breaking, CallbackInfo ci) {
         if (!FreePlacementMode.isActive()) return;
@@ -40,7 +40,7 @@ public class MinecraftClientMixin {
         }
     }
 
-
+    
 
     @Inject(method = "doItemUse", at = @At("HEAD"), cancellable = true)
     private void freeplacement$onDoItemUse(CallbackInfo ci) {
