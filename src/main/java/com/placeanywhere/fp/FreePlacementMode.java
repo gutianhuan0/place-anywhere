@@ -31,6 +31,19 @@ import org.lwjgl.glfw.GLFW;
 
 import java.util.List;
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 public final class FreePlacementMode {
     private static final double REACH = 6.0;
     private static final float STEP_NORMAL = 15.0f;
@@ -47,15 +60,16 @@ public final class FreePlacementMode {
     private static boolean active = false;
     private static Axis currentAxis = Axis.YAW;
     private static float pitchDeg = 0f, yawDeg = 0f, rollDeg = 0f;
-
+    
     private static float yOffset = 0f;
-
+    
     private static boolean mineHandled = false;
 
+    
     private static final float[] CUBE_X = {0,1,0,1,0,1,0,1};
     private static final float[] CUBE_Y = {0,0,1,1,0,0,1,1};
     private static final float[] CUBE_Z = {0,0,0,0,1,1,1,1};
-
+    
     private static final int[][] EDGES = {
         {0,1},{2,3},{4,5},{6,7},
         {0,2},{1,3},{4,6},{5,7},
@@ -110,6 +124,7 @@ public final class FreePlacementMode {
             client.player.sendMessage(Text.literal("§e旋转轴: " + axisName), true);
         }
 
+        
         while (upKey.wasPressed()) {
             yOffset += 0.5f;
             client.player.sendMessage(Text.literal("§eY偏移: " + yOffset), true);
@@ -119,12 +134,14 @@ public final class FreePlacementMode {
             client.player.sendMessage(Text.literal("§eY偏移: " + yOffset), true);
         }
 
+        
         while (resetKey.wasPressed()) {
             resetTransform();
             client.player.sendMessage(Text.literal("§e已重置旋转和Y偏移"), true);
         }
     }
 
+    
     public static void resetTransform() {
         pitchDeg = 0f;
         yawDeg = 0f;
@@ -132,6 +149,7 @@ public final class FreePlacementMode {
         yOffset = 0f;
     }
 
+    
     public static void onScroll(double vertical) {
         if (!active) return;
         MinecraftClient client = MinecraftClient.getInstance();
@@ -152,16 +170,23 @@ public final class FreePlacementMode {
         return new Quaternionf().rotationZYX(roll, yaw, pitch);
     }
 
+    
+
+
+
     private static Vec3d getPlacementPos(MinecraftClient client, Quaternionf q) {
         Vec3d center;
         Vec3d eye = client.player.getEyePos();
         Vec3d dir = client.player.getRotationVec(1.0F);
         Vec3d end = eye.add(dir.multiply(REACH));
 
+        
         var freeHit = FreeBlocks.raycast(client.world, eye, end);
         if (freeHit.isPresent()) {
             var fb = freeHit.get();
-
+            
+            
+            
             org.joml.Quaternionf fbQ = new org.joml.Quaternionf(
                     fb.qx(), fb.qy(), fb.qz(), fb.qw()).normalize();
             org.joml.Vector3f nDir = new org.joml.Vector3f(
@@ -171,7 +196,7 @@ public final class FreePlacementMode {
             fbQ.transform(nDir);
             center = fb.point().add(nDir.x * 0.5, nDir.y * 0.5, nDir.z * 0.5);
         } else if (client.crosshairTarget != null && client.crosshairTarget.getType() == HitResult.Type.BLOCK) {
-
+            
             BlockHitResult bhr = (BlockHitResult) client.crosshairTarget;
             Vec3d hitPos = bhr.getPos();
             Direction side = bhr.getSide();
@@ -180,21 +205,26 @@ public final class FreePlacementMode {
                     side.getOffsetY() * 0.5,
                     side.getOffsetZ() * 0.5);
         } else {
-
+            
             center = end;
         }
-
+        
         center = center.add(0, yOffset, 0);
-
+        
         double x = center.x - 0.5;
         double y = center.y - 0.5;
         double z = center.z - 0.5;
-
+        
         double minY = client.world.getBottomY() + 1;
         if (y < minY) y = minY;
-
+        
+        
+        
+        
         return new Vec3d(x, y, z);
     }
+
+    
 
     private static boolean isOverlapping(MinecraftClient client, Vec3d pos, Quaternionf q) {
         org.joml.Vector3f axisX = new org.joml.Vector3f(1, 0, 0);
@@ -206,6 +236,7 @@ public final class FreePlacementMode {
         org.joml.Vector3f center = new org.joml.Vector3f(
                 (float) (pos.x + 0.5), (float) (pos.y + 0.5), (float) (pos.z + 0.5));
 
+        
         Box searchBox = new Box(pos.x - 1, pos.y - 1, pos.z - 1, pos.x + 2, pos.y + 2, pos.z + 2);
         boolean[] overlap = { false };
         FreeBlocks.forEachPlaced(client.world, searchBox, fb -> {
@@ -221,6 +252,7 @@ public final class FreePlacementMode {
             org.joml.Vector3f fCenter = new org.joml.Vector3f(
                     (float) (fb.pos().x() + 0.5), (float) (fb.pos().y() + 0.5), (float) (fb.pos().z() + 0.5));
 
+            
             org.joml.Vector3f[] myEdges = { axisX, axisY, axisZ };
             org.joml.Vector3f[] fbEdges = { fAxisX, fAxisY, fAxisZ };
             java.util.List<org.joml.Vector3f> axesList = new java.util.ArrayList<>();
@@ -251,6 +283,7 @@ public final class FreePlacementMode {
         });
         if (overlap[0]) return true;
 
+        
         Box obbBoundingBox = FreeBlocks.rotateBoxAABB(
                 new Box(0, 0, 0, 1, 1, 1),
                 new com.placeanywhere.core.DecimalBlockPos(pos.x, pos.y, pos.z),
@@ -265,7 +298,7 @@ public final class FreePlacementMode {
             Box vsBox = vsShape.getBoundingBox();
             if (vsBox == null) continue;
             Box worldVsBox = vsBox.offset(bp.getX(), bp.getY(), bp.getZ());
-
+            
             org.joml.Vector3f vCenter = new org.joml.Vector3f(
                     (float) ((worldVsBox.minX + worldVsBox.maxX) * 0.5),
                     (float) ((worldVsBox.minY + worldVsBox.maxY) * 0.5),
@@ -273,7 +306,7 @@ public final class FreePlacementMode {
             float vHalfX = (float) ((worldVsBox.maxX - worldVsBox.minX) * 0.5);
             float vHalfY = (float) ((worldVsBox.maxY - worldVsBox.minY) * 0.5);
             float vHalfZ = (float) ((worldVsBox.maxZ - worldVsBox.minZ) * 0.5);
-
+            
             org.joml.Vector3f[] obbEdges = { axisX, axisY, axisZ };
             org.joml.Vector3f[] aabbEdges = {
                 new org.joml.Vector3f(1, 0, 0), new org.joml.Vector3f(0, 1, 0), new org.joml.Vector3f(0, 0, 1)
@@ -318,7 +351,7 @@ public final class FreePlacementMode {
         }
         Quaternionf q = currentQuaternion();
         Vec3d pos = getPlacementPos(client, q);
-
+        
         if (isOverlapping(client, pos, q)) {
             client.player.sendMessage(Text.literal("§c无法放置：与现有方块重叠"), true);
             return true; 
@@ -331,11 +364,14 @@ public final class FreePlacementMode {
         return true;
     }
 
+    
+
     private static void renderPreview(WorldRenderContext context) {
         MinecraftClient client = MinecraftClient.getInstance();
         if (client.player == null || client.world == null) return;
         if (context.consumers() == null || context.matrixStack() == null) return;
 
+        
         if (client.getEntityRenderDispatcher().shouldRenderHitboxes()) {
             renderAllHitboxes(context, client);
         }
@@ -355,9 +391,10 @@ public final class FreePlacementMode {
         VertexConsumer lines = context.consumers().getBuffer(RenderLayer.getLines());
         double lx = pos.x - cam.x, ly = pos.y - cam.y, lz = pos.z - cam.z;
 
+        
         BlockItem bi = (BlockItem) client.player.getStackInHand(hand).getItem();
         BlockState state = bi.getBlock().getDefaultState();
-
+        
         if (FreeBlocks.placeCallback != null) {
             try {
                 var result = FreeBlocks.placeCallback.onPlace(
@@ -367,17 +404,19 @@ public final class FreePlacementMode {
                 }
             } catch (Throwable ignored) {}
         }
-
+        
         Direction playerFacing = client.player.getHorizontalFacing();
         if (state.contains(net.minecraft.state.property.Properties.HORIZONTAL_FACING)) {
             state = state.with(net.minecraft.state.property.Properties.HORIZONTAL_FACING, playerFacing);
         }
 
+        
         boolean overlap = isOverlapping(client, pos, q);
         float boxR = overlap ? 1f : 0f;
         float boxG = overlap ? 0.2f : 1f;
         float boxB = overlap ? 0.2f : 0.5f;
 
+        
         VoxelShape outline = state.getOutlineShape(client.world, BlockPos.ofFloored(pos.x, pos.y, pos.z));
         if (outline.isEmpty()) outline = VoxelShapes.fullCube();
         Box outlineBox = outline.getBoundingBox();
@@ -387,6 +426,7 @@ public final class FreePlacementMode {
                     outlineBox.maxX, outlineBox.maxY, outlineBox.maxZ);
         }
 
+        
         VoxelShape collision = state.getCollisionShape(client.world, BlockPos.ofFloored(pos.x, pos.y, pos.z));
         if (collision.isEmpty()) collision = VoxelShapes.fullCube();
         Box collisionBox = collision.getBoundingBox();
@@ -397,6 +437,7 @@ public final class FreePlacementMode {
         }
     }
 
+    
     private static void drawRotatedBox(VertexConsumer lines, MatrixStack matrices,
                                         double ox, double oy, double oz, Quaternionf q,
                                         float r, float g, float b, float a,
@@ -423,6 +464,8 @@ public final class FreePlacementMode {
         }
     }
 
+    
+
     private static void renderAllHitboxes(WorldRenderContext context, MinecraftClient client) {
         Vec3d cam = context.camera().getPos();
         MatrixStack matrices = context.matrixStack();
@@ -434,6 +477,7 @@ public final class FreePlacementMode {
 
         var pose = matrices.peek().getPositionMatrix();
 
+        
         List<VoxelShape> collisionShapes = FreeBlocks.collectCollisionShapes(client.world, queryRange);
         for (VoxelShape vs : collisionShapes) {
             Box b = vs.getBoundingBox();
@@ -444,6 +488,7 @@ public final class FreePlacementMode {
                     1.0f, 0.2f, 0.2f, 0.5f);
         }
 
+        
         FreeBlocks.forEachPlaced(client.world, queryRange, fb -> {
             boolean hasRotation = fb.qx() != 0f || fb.qy() != 0f || fb.qz() != 0f || fb.qw() != 1f;
             if (!hasRotation) return;
@@ -451,7 +496,7 @@ public final class FreePlacementMode {
             if (shape.isEmpty()) shape = VoxelShapes.fullCube();
             Box localBox = shape.getBoundingBox();
             if (localBox == null) return;
-
+            
             double[][] corners = FreeBlocks.rotatedCorners(localBox, fb.pos(), fb.qx(), fb.qy(), fb.qz(), fb.qw());
             double[][] p = new double[8][3];
             for (int i = 0; i < 8; i++) {
@@ -468,6 +513,7 @@ public final class FreePlacementMode {
         });
     }
 
+    
     private static void drawBoxLines(VertexConsumer lines, org.joml.Matrix4f pose,
                                       double minX, double minY, double minZ,
                                       double maxX, double maxY, double maxZ,

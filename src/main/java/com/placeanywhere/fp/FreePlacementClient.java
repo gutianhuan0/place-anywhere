@@ -2,6 +2,10 @@ package com.placeanywhere.fp;
 
 import net.fabricmc.api.ClientModInitializer;
 
+
+
+
+
 public class FreePlacementClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
